@@ -45,7 +45,9 @@ class MLTrader(Strategy):
                     self.symbol,
                     quantity,
                     "buy",
-                    type="market"
+                    type="bracket",
+                    take_profit_price=last_price*1.10,
+                    stop_loss_price=last_price*.95
                 )
                 self.submit_order(order)
                 self.last_trade = "buy"
