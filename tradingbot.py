@@ -8,7 +8,7 @@ from config import API_SECRET, API_KEY
 
 #API_KEY = ""
 #API_SECRET = ""
-BASE_URL = ""
+BASE_URL = "https://api.alpaca.markets"
 
 ALPACA_CREDS = {
     
@@ -16,3 +16,35 @@ ALPACA_CREDS = {
     "API_SECRET":API_SECRET,
     "PAPER": True
 }
+
+
+class MLTrader(Strategy):
+    #runs once when bot is started up
+    def initialize(self, symbol:str="SPY"):
+        self.symbol = symbol
+        self.sleeptime = "24H"
+        self.last_trade = None
+        
+    #runs after everytick (new data from data source is recieved)
+    def on_trading_iteration(self):
+        return super().on_trading_iteration()
+
+
+start_date = datetime(2023, 11, 20)
+end_date = datetime(2023, 12, 3)
+
+#creates instancce of alpaca, interacts with API for trading - 
+# placing orders, viewing market data, checking account details
+broker = Alpaca(ALPACA_CREDS)
+
+Strategy = MLTrader(name='mlstrat', 
+                    broker=broker, 
+                    parameters={})
+
+#how well it runs based on historic data
+Strategy.backtest(
+    YahooDataBacktesting,
+    start_date,
+    end_date,
+    parameters={}
+)
