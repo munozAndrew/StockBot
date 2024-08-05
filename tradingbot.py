@@ -7,6 +7,7 @@ from alpaca_trade_api import REST
 from timedelta import Timedelta 
 
 from config import API_SECRET, API_KEY
+from finbert_utils import estimate_sentiment
 
 #API_KEY = ""
 #API_SECRET = ""
@@ -41,7 +42,7 @@ class MLTrader(Strategy):
         return today.strftime('%Y-%m-%d'), three_days_prior.strftime('%Y-%m-%d')    
     
     #get news and utalize ML to determine whether to buy or sell
-    def get_news(self):
+    def get_sentiment(self):
         #dates
         today, three_days_prior = self.get_dates()
         
@@ -50,7 +51,9 @@ class MLTrader(Strategy):
                                  start=three_days_prior, end=today)
         #format news
         news = [ev.__dict__['_raw']['headline'] for ev in news]
-        return news
+        
+        probability, sentiment = estimate_sentiment(news)
+        return probability, sentiment
     
     
     #runs after everytick (new data from data source is recieved)
@@ -61,8 +64,8 @@ class MLTrader(Strategy):
         if cash > last_price:
             
             if self.last_trade == None:
-                news = self.get_news()
-                print(news)
+                probability, sentiment = self.get_sentiment()
+                print(probability, sentiment)
                 order = self.create_order(
                     self.symbol,
                     quantity,
