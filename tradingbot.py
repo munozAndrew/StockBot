@@ -50,7 +50,7 @@ class MLTrader(Strategy):
         news = self.api.get_news(symbol=self.symbol, 
                                  start=three_days_prior, end=today)
         #format news
-        news = [ev.__dict__['_raw']['headline'] for ev in news]
+        news = [ev.__dict__["_raw"]["headline"] for ev in news]
         
         probability, sentiment = estimate_sentiment(news)
         return probability, sentiment
@@ -60,27 +60,45 @@ class MLTrader(Strategy):
     def on_trading_iteration(self):
         
         cash, last_price, quantity = self.position_sizing()
+        probability, sentiment = self.get_sentiment()
+
         
         if cash > last_price:
             
-            if self.last_trade == None:
-                probability, sentiment = self.get_sentiment()
-                print(probability, sentiment)
+            if sentiment == "positive" and probability > .999:
+                if self.last_trade == "sell":
+                    self.sell_all()
+                #if self.last_trade == None:
                 order = self.create_order(
-                    self.symbol,
-                    quantity,
-                    "buy",
-                    type="bracket",
-                    take_profit_price=last_price*1.10,
-                    stop_loss_price=last_price*.95
-                )
+                        self.symbol,
+                        quantity,
+                        "buy",
+                        type="bracket",
+                        take_profit_price=last_price*1.10,
+                        stop_loss_price=last_price*.95
+                    )
                 self.submit_order(order)
                 self.last_trade = "buy"
+                    
+            elif sentiment == "negative" and probability > .999:
+                if self.last_trade == "buy":
+                    self.sell_all()
+                #if self.last_trade == None:
+                order = self.create_order(
+                        self.symbol,
+                        quantity,
+                        "sell",
+                        type="bracket",
+                        take_profit_price=last_price*.8,
+                        stop_loss_price=last_price*1.05
+                    )
+                self.submit_order(order)
+                self.last_trade = "sell"
         return super().on_trading_iteration()
 
 
-start_date = datetime(2023, 12, 10)
-end_date = datetime(2023, 12, 15)
+start_date = datetime(2023,11,1)
+end_date = datetime(2023,12,31)
 
 #creates instancce of alpaca, interacts with API for trading - 
 # placing orders, viewing market data, checking account details
