@@ -8,7 +8,7 @@ from timedelta import Timedelta
 
 from config import API_SECRET, API_KEY
 from finbert_utils import estimate_sentiment
-
+import time
 #API_KEY = ""
 #API_SECRET = ""
 BASE_URL = "https://paper-api.alpaca.markets/v2"
@@ -97,8 +97,8 @@ class MLTrader(Strategy):
         return super().on_trading_iteration()
 
 
-start_date = datetime(2023,11,1)
-end_date = datetime(2023,12,31)
+start_date = datetime(2020,2,1)
+end_date = datetime(2024,7,29)
 
 #creates instancce of alpaca, interacts with API for trading - 
 # placing orders, viewing market data, checking account details
@@ -108,9 +108,15 @@ strategy = MLTrader(name='mlstrat', broker=broker,
                     parameters={"symbol":"SPY", "cash_at_risk":.5})
 
 #how well it runs based on historic data
+
+time_s = time.time()
+
 strategy.backtest(
     YahooDataBacktesting,
     start_date,
     end_date,
     parameters={"symbol":"SPY", "cash_at_risk":.5}
 )
+
+time_e = time.time()
+print("Time: ", time_e-time_s)

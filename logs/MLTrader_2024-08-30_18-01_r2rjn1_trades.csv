@@ -1,0 +1,11 @@
+time,strategy,identifier,symbol,side,type,status,multiplier,time_in_force,asset.strike,asset.multiplier,asset.asset_type,price,filled_quantity,trade_cost
+2024-06-14 09:30:00-04:00,MLTrader,a935aeaa3eb645218222cc4b924e5651,SPY,buy,market,new,1,gtc,0.0,1,stock,,,
+2024-06-14 09:30:00-04:00,MLTrader,a935aeaa3eb645218222cc4b924e5651,SPY,buy,market,fill,1,gtc,0.0,1,stock,540.8800048828125,92.0,0.0
+2024-06-24 09:30:00-04:00,MLTrader,226c62374dec4e828bec6a58f4e17268,SPY,sell,stop,canceled,1,day,0.0,1,stock,,,
+2024-06-24 09:30:00-04:00,MLTrader,cb937988beb441a482046b18e8a33c5b,SPY,sell,limit,canceled,1,day,0.0,1,stock,,,
+2024-06-24 09:30:00-04:00,MLTrader,ad4707c6688c446a80c63b5c88bf95e9,SPY,sell,market,new,1,day,0.0,1,stock,,,
+2024-06-24 09:30:00-04:00,MLTrader,d18ab1bc352a461fa56e229cfe65ad30,SPY,sell,market,new,1,gtc,0.0,1,stock,,,
+2024-06-24 09:30:00-04:00,MLTrader,ad4707c6688c446a80c63b5c88bf95e9,SPY,sell,market,fill,1,day,0.0,1,stock,544.3300170898438,92.0,0.0
+2024-06-24 09:30:00-04:00,MLTrader,d18ab1bc352a461fa56e229cfe65ad30,SPY,sell,market,fill,1,gtc,0.0,1,stock,544.3300170898438,46.0,0.0
+2024-06-27 09:30:00-04:00,MLTrader,07100e6285ca4200add82d793dacb3c1,SPY,sell,market,new,1,gtc,0.0,1,stock,,,
+2024-06-27 09:30:00-04:00,MLTrader,07100e6285ca4200add82d793dacb3c1,SPY,sell,market,fill,1,gtc,0.0,1,stock,545.3699951171875,115.0,0.0
